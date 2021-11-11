@@ -6,5 +6,5 @@ import { Component } from "@angular/core";
 })
 
 export class HeaderComponent {
-title:string = 'App Angular Sprint'
+title: string = 'App Angular Sprint'
 }
