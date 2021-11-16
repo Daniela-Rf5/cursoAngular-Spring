@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Cliente } from './cliente';
 import { CLIENTES } from './clientes.json';
-import { Observable } from 'rxjs';
-//import { of } from 'rxjs/observable/of';
-import { HttpClient } from '@angular/common/http';
-import { map} from 'rxjs/operators';
+import { Cliente } from './cliente';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 
 @Injectable()
-
 export class ClienteService {
-   urlEndPoint:string ='http://localhost:8080/api/clientes';
+  private urlEndPoint: string = 'http://localhost:8080/api/clientes';
 
-  constructor(private http: HttpClient) { }
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
+  
+  constructor(private http: HttpClient) {}
 
+  
   getClientes(): Observable<Cliente[]>{ 
    // return of(CLIENTES);
 
@@ -21,4 +23,14 @@ export class ClienteService {
       map(response => response as Cliente[])
     );
 }
+create(cliente: Cliente) : Observable<Cliente> {
+  return this.http.post<Cliente>(this.urlEndPoint, cliente, {headers: this.httpHeaders} )
+}
+
+getCliente(id: any): Observable<Cliente>{
+return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`)
+
+}
+
+
 }
